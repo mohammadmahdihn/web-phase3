@@ -36,7 +36,6 @@ public class UserController {
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Update a user by ID
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
         Optional<User> userOptional = userRepository.findById(id);
@@ -61,5 +60,30 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    // Follow a user
+    @PostMapping("/{username}/follow")
+    public ResponseEntity<String> followUser(
+            @PathVariable String username,
+            @RequestParam String followerUsername) {
+        User userToFollow = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        User follower = userRepository.findByUsername(followerUsername)
+                .orElseThrow(() -> new RuntimeException("Follower not found"));
+
+        if (follower.getUsername().equals(username)) {
+            return ResponseEntity.badRequest().body("You cannot follow yourself");
+        }
+
+        if (follower.getFollowing().contains(userToFollow)) {
+            return ResponseEntity.badRequest().body("You are already following this user");
+        }
+
+        follower.getFollowing().add(userToFollow);
+        userRepository.save(follower);
+
+        return ResponseEntity.ok("User followed successfully");
     }
 }
