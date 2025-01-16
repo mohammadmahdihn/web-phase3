@@ -1,11 +1,9 @@
+
 package com.example.webphase3.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.util.List;
 
-@Data
 @Entity
 @Table(name = "questions")
 public class Question {
@@ -42,4 +40,68 @@ public class Question {
 
     @Column(nullable = false)
     private Long creatorId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<String> options) {
+        this.options = options;
+    }
+
+    public int getCorrectOption() {
+        return correctOption;
+    }
+
+    public void setCorrectOption(int correctOption) {
+        this.correctOption = correctOption;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<Question> getRelatedQuestions() {
+        return relatedQuestions;
+    }
+
+    public void setRelatedQuestions(List<Question> relatedQuestions) {
+        this.relatedQuestions = relatedQuestions;
+    }
+
+    public Long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
+    }
 }
