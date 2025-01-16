@@ -27,8 +27,9 @@ public class Question {
     @Column(nullable = false)
     private String difficulty;
 
-    @Column(nullable = false)
-    private String category;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @ManyToMany
     @JoinTable(
