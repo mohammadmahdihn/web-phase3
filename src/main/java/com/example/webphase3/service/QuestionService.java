@@ -1,5 +1,7 @@
 package com.example.webphase3.service;
 
+import com.example.webphase3.exception.NotFoundException;
+import com.example.webphase3.exception.UnauthorizedException;
 import com.example.webphase3.model.Category;
 import com.example.webphase3.model.Question;
 import com.example.webphase3.repository.CategoryRepository;
@@ -25,10 +27,10 @@ public class QuestionService {
     // Add a question
     public Question addQuestion(Question question, Long creatorId, String categoryName) {
         userRepository.findById(creatorId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
         Category category = categoryRepository.findByName(categoryName)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new NotFoundException("Category not found"));
 
         question.setCreatorId(creatorId);
         question.setCategory(category);
@@ -38,14 +40,14 @@ public class QuestionService {
 
     public List<Question> getQuestionsByCategory(String categoryName) {
         Category category = categoryRepository.findByName(categoryName)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new NotFoundException("Category not found"));
         return questionRepository.findByCategory(category);
     }
 
     public Question getRandomQuestion() {
         List<Question> questions = questionRepository.findAll();
         if (questions.isEmpty()) {
-            throw new RuntimeException("No questions found");
+            throw new NotFoundException("No questions found");
         }
         Random random = new Random();
         return questions.get(random.nextInt(questions.size()));
@@ -53,10 +55,10 @@ public class QuestionService {
 
     public void deleteQuestion(Long id, Long creatorId) {
         Question question = questionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Question not found"));
+                .orElseThrow(() -> new NotFoundException("Question not found"));
 
         if (!question.getCreatorId().equals(creatorId)) {
-            throw new RuntimeException("You are not authorized to delete this question");
+            throw new UnauthorizedException("You are not authorized to delete this question");
         }
 
         questionRepository.deleteById(id);
