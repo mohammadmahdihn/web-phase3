@@ -1,21 +1,26 @@
 package com.example.webphase3.controller;
 
+import com.example.webphase3.model.Question;
 import com.example.webphase3.model.User;
+import com.example.webphase3.repository.QuestionRepository;
 import com.example.webphase3.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     private final UserRepository userRepository;
+    private final QuestionRepository questionRepository;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, QuestionRepository questionRepository) {
         this.userRepository = userRepository;
+        this.questionRepository = questionRepository;
     }
 
     @PostMapping
@@ -84,5 +89,19 @@ public class UserController {
         userRepository.save(follower);
 
         return ResponseEntity.ok("User followed successfully");
+    }
+
+    @GetMapping("/{userId}/feed")
+    public ResponseEntity<List<Question>> getFeed(@PathVariable Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<Long> followingIds = user.getFollowing().stream()
+                .map(User::getId)
+                .collect(Collectors.toList());
+
+        List<Question> feedQuestions = questionRepository.findFeedQuestions(userId, followingIds);
+
+        return ResponseEntity.ok(feedQuestions);
     }
 }

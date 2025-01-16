@@ -2,6 +2,9 @@
 package com.example.webphase3.model;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -40,6 +43,10 @@ public class Question {
 
     @Column(nullable = false)
     private Long creatorId;
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     public Long getId() {
         return id;
