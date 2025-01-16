@@ -24,7 +24,6 @@ public class QuestionService {
         this.categoryRepository = categoryRepository;
     }
 
-    // Add a question
     public Question addQuestion(Question question, Long creatorId, String categoryName) {
         userRepository.findById(creatorId)
                 .orElseThrow(() -> new NotFoundException("User not found"));

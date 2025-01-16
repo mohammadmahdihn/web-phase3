@@ -1,7 +1,6 @@
 package com.example.webphase3.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "answers")

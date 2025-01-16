@@ -1,5 +1,7 @@
 package com.example.webphase3.controller;
 
+import com.example.webphase3.exception.AlreadyExistsException;
+import com.example.webphase3.exception.NotFoundException;
 import com.example.webphase3.model.Category;
 import com.example.webphase3.service.CategoryService;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +26,22 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
-        Category savedCategory = categoryService.addCategory(category);
-        return ResponseEntity.ok(savedCategory);
+    public ResponseEntity<?> addCategory(@RequestBody Category category) {
+        try {
+            Category savedCategory = categoryService.addCategory(category);
+            return ResponseEntity.ok(savedCategory);
+        } catch (AlreadyExistsException e) {
+            return ResponseEntity.status(409).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
-        categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
+        try {
+            categoryService.deleteCategory(id);
+            return ResponseEntity.noContent().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
     }
 }
