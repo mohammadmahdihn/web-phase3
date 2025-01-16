@@ -1,5 +1,6 @@
 package com.example.webphase3.service;
 
+import com.example.webphase3.exception.AlreadyExistsException;
 import com.example.webphase3.exception.NotFoundException;
 import com.example.webphase3.model.Answer;
 import com.example.webphase3.model.Question;
@@ -29,7 +30,7 @@ public class AnswerService {
 
         Optional<Answer> existingAnswer = answerRepository.findByQuestionIdAndPlayerId(questionId, playerId);
         if (existingAnswer.isPresent()) {
-            throw new RuntimeException("You have already answered this question");
+            throw new AlreadyExistsException("You have already answered this question");
         }
 
         User user = userRepository.findById(playerId)

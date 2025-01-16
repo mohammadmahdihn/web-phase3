@@ -1,5 +1,6 @@
 package com.example.webphase3.service;
 
+import com.example.webphase3.exception.AlreadyExistsException;
 import com.example.webphase3.exception.NotFoundException;
 import com.example.webphase3.model.Category;
 import com.example.webphase3.repository.CategoryRepository;
@@ -25,7 +26,7 @@ public class CategoryService {
     public Category addCategory(Category category) {
         Optional<Category> existingCategory = categoryRepository.findByName(category.getName());
         if (existingCategory.isPresent()) {
-            throw new RuntimeException("Category already exists: " + category.getName());
+            throw new AlreadyExistsException("Category already exists: " + category.getName());
         }
         return categoryRepository.save(category);
     }
