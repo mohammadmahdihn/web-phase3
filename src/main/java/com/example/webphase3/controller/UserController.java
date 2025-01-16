@@ -62,7 +62,6 @@ public class UserController {
         }
     }
 
-    // Follow a user
     @PostMapping("/{username}/follow")
     public ResponseEntity<String> followUser(
             @PathVariable String username,
