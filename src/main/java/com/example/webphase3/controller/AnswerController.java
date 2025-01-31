@@ -23,7 +23,7 @@ public class AnswerController {
     public ResponseEntity<String> submitAnswer(
             @RequestParam Long questionId,
             @RequestParam Long playerId,
-            @RequestParam int selectedOption) {
+            @RequestParam String selectedOption) {
         try {
             String result = answerService.submitAnswer(questionId, playerId, selectedOption);
             return ResponseEntity.ok(result);

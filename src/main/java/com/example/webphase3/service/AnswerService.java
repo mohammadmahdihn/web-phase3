@@ -25,7 +25,7 @@ public class AnswerService {
         this.questionRepository = questionRepository;
     }
 
-    public String submitAnswer(Long questionId, Long playerId, int selectedOption) {
+    public String submitAnswer(Long questionId, Long playerId, String selectedOption) {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new NotFoundException("Question not found"));
 
@@ -37,7 +37,7 @@ public class AnswerService {
         User user = userRepository.findById(playerId)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
-        boolean isCorrect = question.getCorrectOption() == selectedOption;
+        boolean isCorrect = question.getCorrectOption().equals(selectedOption);
 
         if (isCorrect) {
             user.setScore(user.getScore() + 3);

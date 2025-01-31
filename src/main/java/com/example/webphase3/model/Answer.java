@@ -19,7 +19,7 @@ public class Answer {
     private User player;
 
     @Column(nullable = false)
-    private int selectedOption;
+    private String selectedOption;
 
     @Column(nullable = false)
     private boolean isCorrect;
@@ -48,11 +48,11 @@ public class Answer {
         this.player = player;
     }
 
-    public int getSelectedOption() {
+    public String getSelectedOption() {
         return selectedOption;
     }
 
-    public void setSelectedOption(int selectedOption) {
+    public void setSelectedOption(String selectedOption) {
         this.selectedOption = selectedOption;
     }
 

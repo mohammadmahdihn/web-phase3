@@ -22,7 +22,7 @@ public class Question {
     private List<String> options;
 
     @Column(nullable = false)
-    private int correctOption;
+    private String correctOption;
 
     @Column(nullable = false)
     private String difficulty;
@@ -69,11 +69,11 @@ public class Question {
         this.options = options;
     }
 
-    public int getCorrectOption() {
+    public String getCorrectOption() {
         return correctOption;
     }
 
-    public void setCorrectOption(int correctOption) {
+    public void setCorrectOption(String correctOption) {
         this.correctOption = correctOption;
     }
 
