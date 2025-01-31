@@ -9,6 +9,7 @@ import com.example.webphase3.repository.QuestionRepository;
 import com.example.webphase3.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -33,7 +34,7 @@ public class QuestionService {
 
         question.setCreatorId(creatorId);
         question.setCategory(category);
-
+        question.setCreatedAt(LocalDateTime.now());
         return questionRepository.save(question);
     }
 
